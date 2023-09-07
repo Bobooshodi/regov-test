@@ -8,6 +8,10 @@ git clone https://github.com/Bobooshodi/regov-test.git
 # Installation
 Navigate to the folder where you cloned the project
 ```bash
+$ cp .env.example .env
+```
+modify the env file accordingly.
+```bash
 $ npm install
 ```
 ## Running the app With Docker
@@ -35,8 +39,8 @@ Done, you can noe access the app via http://localhost:3000
 
 PS: You can import the sample_dump.gz file for sample data
 
-##Endpoints
-###Users
+## Endpoints
+### Users
 POST /users
 PATCH /users
 ```
@@ -62,7 +66,7 @@ Query Parameeters
 fields Array<String>
 ```
 
-###Users
+### Residents
 POST /residents/seed
 ```
 Sample Request Body
