@@ -14,6 +14,7 @@ export class Resident {
       this.firstName = resident.firstName;
       this.lastName = resident.lastName;
       this.occupation = resident.occupation;
+      this.ssn = resident.ssn;
       this.age = resident.age;
       this.gender = resident.gender;
       this.isActive = resident.isActive || true;
