@@ -39,8 +39,8 @@ Done, you can noe access the app via http://localhost:3000
 
 PS: You can import the sample_dump.gz file for sample data
 
-##Endpoints
-###Users
+## Endpoints
+### Users
 POST /users
 PATCH /users
 ```
@@ -66,7 +66,7 @@ Query Parameeters
 fields Array<String>
 ```
 
-### Users
+### Residents
 POST /residents/seed
 ```
 Sample Request Body
