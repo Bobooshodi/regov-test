@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  db:
+    container_name: "duba-regov-test-db"
+    env_file:
+      - ./.env
+    image: mongo:6.0-focal
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: 'superadmin'
+      MONGO_INITDB_ROOT_PASSWORD: 'changeMe!'
+      MONGO_INITDB_DATABASE: ${DATABASE_NAME}
+    volumes:
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+
+  api:
+    container_name: "duba-regov-test"
+    depends_on:
+      - db
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    volumes:
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules
+    restart: unless-stopped
