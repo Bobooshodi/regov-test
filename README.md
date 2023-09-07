@@ -8,6 +8,10 @@ git clone https://github.com/Bobooshodi/regov-test.git
 # Installation
 Navigate to the folder where you cloned the project
 ```bash
+$ cp .env.example .env
+```
+modify the env file accordingly.
+```bash
 $ npm install
 ```
 ## Running the app With Docker
@@ -62,7 +66,7 @@ Query Parameeters
 fields Array<String>
 ```
 
-###Users
+### Users
 POST /residents/seed
 ```
 Sample Request Body
