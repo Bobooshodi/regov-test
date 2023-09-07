@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, BadRequestException } from '@nestjs/common';
 import { ResidentsService } from './residents.service';
 import { CreateResidentDto } from './dto/create-resident.dto';
 import { UpdateResidentDto } from './dto/update-resident.dto';
@@ -7,28 +7,30 @@ import { UpdateResidentDto } from './dto/update-resident.dto';
 export class ResidentsController {
   constructor(private readonly residentsService: ResidentsService) {}
 
-  @Post()
-  create(@Body() createResidentDto: CreateResidentDto) {
-    return this.residentsService.create(createResidentDto);
+  @Post('seed')
+  async seed() {
+    try {
+      return this.residentsService.seedData();
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
   }
 
   @Get()
-  findAll() {
-    return this.residentsService.findAll();
+  async findAll(@Query('fields') fields: string[]) {
+    try {
+      return this.residentsService.findAll(fields);
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.residentsService.findOne(id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateResidentDto: UpdateResidentDto) {
-    return this.residentsService.update(+id, updateResidentDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.residentsService.remove(id);
+  async findOne(@Param('id') id: string, @Query('fields') fields: string[]) {
+    try {
+      return this.residentsService.findOne(id, fields);
+    } catch (e) {
+      throw new BadRequestException(e.message);
+    }
   }
 }

@@ -1,8 +1,9 @@
-import { Column, Entity, ObjectIdColumn, Unique } from 'typeorm';
+import { Column, Entity, ObjectId, ObjectIdColumn, Unique } from 'typeorm';
 import { CreateUserDto } from '../dto/create-user.dto';
+import { Exclude } from 'class-transformer';
 
 @Entity()
-@Unique(["email", "username"])
+@Unique(["email", "username", "ssn"])
 export class User {
   constructor(user?: CreateUserDto) {
     if (!!user) {
@@ -14,7 +15,7 @@ export class User {
   }
 
   @ObjectIdColumn()
-  id: string;
+  _id: ObjectId;
 
   @Column()
   firstName: string;
@@ -25,12 +26,16 @@ export class User {
   @Column()
   email: string;
 
+  @Column()
+  ssn: string;
+
   @Column({ default: true })
   isActive: boolean;
 
   @Column()
   username: string;
 
-  @Column()
+  @Exclude()
+  @Column({ select: false })
   password: string;
 }

@@ -48,33 +48,38 @@ export class ResidentsService {
       mother: mother._id,
     });
 
-    father.spouse = mother._id;
-    father.children = [child._id];
-    mother.children = [child._id];
+    father.spouse = mother._id.toString();
+    father.children = [child._id.toString()];
+    mother.children = [child._id.toString()];
 
     return [father, mother, child];
   }
 
-  create(createResidentDto: CreateResidentDto) {
+  async seedData() {
     const familyData = this.makeSeedData();
     return this.residentsRepository.save(familyData);
   }
 
-  findAll() {
-    return this.residentsRepository.find();
+  async findAll(fields: string[] = []) {
+    const query: any = { };
+    if (fields.length > 0) {
+      query.select = fields;
+    }
+
+    return this.residentsRepository.find(query);
   }
 
-  findOne(id: string) {
+  async findOne(id: string, fields: string[] = []) {
     const objectId = new ObjectId(id);
-    return this.residentsRepository.findOneBy({ _id: objectId });
+    const query: any = { where: { _id: objectId } };
+
+    if (fields.length > 0) {
+      query.select = fields;
+    }
+    return this.residentsRepository.findOneBy(query);
   }
 
-  update(id: number, updateResidentDto: UpdateResidentDto) {
-    return `This action updates a #${id} resident`;
-  }
-
-  remove(id: string) {
-    const objectId = new ObjectId(id);
-    return this.residentsRepository.delete(objectId);
+  async findBySSN(ssn: string) {
+    return this.residentsRepository.findOneBy({ ssn });
   }
 }

@@ -4,6 +4,7 @@ import {
   ObjectId,
   ObjectIdColumn,
 } from 'typeorm';
+import { Transform } from 'class-transformer';
 
 @Entity()
 export class Resident {
@@ -26,6 +27,9 @@ export class Resident {
   _id: ObjectId;
 
   @Column()
+  ssn: string;
+
+  @Column()
   firstName: string;
 
   @Column()
@@ -43,15 +47,18 @@ export class Resident {
   @Column({ default: true })
   isActive: boolean;
 
-  @Column(type => ObjectId)
-  spouse: ObjectId;
+  @ObjectIdColumn({nullable: true})
+  @Transform(({ value }) => value.toString(), { toPlainOnly: true })
+  spouse?: string;
 
-  @Column(type => ObjectId)
-  father: ObjectId;
+  @ObjectIdColumn({nullable: true})
+  @Transform(({ value }) => value.toString(), { toPlainOnly: true })
+  father?: string;
 
-  @Column(type => ObjectId)
-  mother: ObjectId;
+  @ObjectIdColumn()
+  @Transform(({ value }) => value.toString(), { toPlainOnly: true })
+  mother: string;
 
   @Column("simple-array")
-  children: ObjectId[];
+  children: string[];
 }
